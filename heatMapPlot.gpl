@@ -1,0 +1,46 @@
+reset
+#set terminal wxt size 1300,600
+set multiplot
+stats "output/world_Data/1.dat" name "A" nooutput
+set xrange[A_min_x:A_max_x]
+set yrange[A_min_y:A_max_y]
+
+set cbrange [0:7] 
+set size ratio 1
+set tic scale 1
+
+set palette defined (0 "grey",\
+                     1 "green",\
+                     2 "blue",\
+                     3 "yellow",\
+                     4 "orange",\
+                     5 "red",\
+                     6 "dark-red",\
+                     7 "black" )
+unset xtics
+unset ytics
+
+
+set cbtics ("Dead" 7,"Infected(Critical)" 6, "Infected(Severe)" 5,  "Infected(Mild)" 4, "Presymptomic" 3, "Exposed" 2,  "Susceptible" 1,  "Recovered" 0,  )
+
+
+list  = system( 'ls output/world_Data/*.dat')
+i = 1;
+do for [file in list] {
+
+clear
+set title  "Day ".i  
+
+plot "output/world_Data/".i.".dat" every :i  w image  notitle
+
+i = (i+1)
+
+}
+unset multiplot
+pause -1 "Hit return to continue"
+
+
+
+
+
+ 
